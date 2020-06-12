@@ -1,0 +1,48 @@
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+
+intents:
+- greet
+- legacyPO
+- thank
+- legacyPO_Number
+
+entities:
+- legacyPO
+
+responses:
+  utter_greet_user:
+  - text: Hello! How may I help you today?
+  utter_greet:
+  - text: Hey! How are you?
+  utter_on_it:
+  - text: I understand your request.
+  utter_noworries:
+  - text: No worries!
+  utter_show_new_po:
+  - text: Your new PO number is XY2E4
+  utter_ask_legacyPO_number:
+  - text: can you please provide the legacy PO number?
+  # utter_greetInfo:
+  # - text: I am demo bot.
+  # utter_goodbye:
+  # - text: Bye
+ 
+
+actions:
+- utter_greet
+- utter_greet_user
+- utter_on_it
+- utter_noworries
+- utter_ask_legacyPO_number
+# - utter_show_new_po
+- action_greet_user
+- action_show_new_po
+# - utter_goodbye
+# - utter_greetInfo
+
+
+
+# forms:
+# - order_form
