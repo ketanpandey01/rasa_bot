@@ -2,13 +2,15 @@
 * greet
   - utter_greet
 
-## show legacyPO
+## asking for legacyPO, without number
 * legacyPO
  - utter_on_it
  - utter_ask_legacyPO_number
-* legacyPO_Number
- - utter_show_new_po
+ 
 
+## asking for legacyPO, with number
+* legacyPO{"legacyPO_No":"123456"}
+ - action_show_new_po
 
  ## thank
 * thank

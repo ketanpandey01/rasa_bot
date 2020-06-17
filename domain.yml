@@ -9,7 +9,7 @@ intents:
 - legacyPO_Number
 
 entities:
-- legacyPO
+- legacyPO_No
 
 responses:
   utter_greet_user:

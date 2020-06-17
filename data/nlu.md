@@ -17,15 +17,22 @@
 - hi, i want to know my legacy po
 - Hi, I want to know my legacy po
 - Hi, How can I order an item?
+- sure, legacyPO number is [42341](legacyPO_No)
+- legacyPO is [52342](legacyPO_No)
+- [81249](legacyPO_No)
+- [14354](legacyPO_No)
+- [54861](legacyPO_No)
+- [98257](legacyPO_No)
+- my legacyPO number is [19923](legacyPO_No)
 
-## intent:legacyPO_Number
-- sure, legacyPO number is [42341](legacyPO)
-- legacyPO is [52342](legacyPO)
-- [81249](legacyPO)
-- [14354](legacyPO)
-- [54861](legacyPO)
-- [98257](legacyPO)
-- my legacyPO number is [19923](legacyPO)
+<!-- ## intent:legacyPO_Number
+- sure, legacyPO number is [42341](legacyPO_No)
+- legacyPO is [52342](legacyPO_No)
+- [81249](legacyPO_No)
+- [14354](legacyPO_No)
+- [54861](legacyPO_No)
+- [98257](legacyPO_No)
+- my legacyPO number is [19923](legacyPO_No) -->
 
 ## intent:thank
 - Thanks
