@@ -7,7 +7,27 @@
 - hey there
 - How you doing
 
-## intent:legacyPO
+## intent: SKU
+- SKU number
+- sku number
+- SKU
+- sku
+- My sku number is [3018](SKU_No)
+- My SKU number is [1243](SKU_No)
+- SKU number is [3014](SKU_No)
+- [7351](SKU_No)
+- Hi, my sku number is [1234](SKU_No)
+- Hi, my SKU number is [7395](SKU_No)
+
+## intent: Store
+- My store number is [3018](store_No)
+- My store number is [1243](store_No)
+- store number is [7931](store_No)
+- [8962](store_No)
+- Hi, my store number is [6789](store_No)
+- Hi, my store number is [7361](store_No)
+
+<!-- ## intent:legacyPO
 - legacy po
 - legacy PO
 - legacyPo
@@ -23,7 +43,7 @@
 - [14354](legacyPO_No)
 - [54861](legacyPO_No)
 - [98257](legacyPO_No)
-- my legacyPO number is [19923](legacyPO_No)
+- my legacyPO number is [19923](legacyPO_No) -->
 
 <!-- ## intent:legacyPO_Number
 - sure, legacyPO number is [42341](legacyPO_No)

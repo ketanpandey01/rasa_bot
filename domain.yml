@@ -7,9 +7,17 @@ intents:
 - legacyPO
 - thank
 - legacyPO_Number
+- SKU
+- Store
 
 entities:
 - legacyPO_No
+- SKU_No
+- store_No
+
+slots:
+  SKU_No:
+    type: unfeaturized
 
 responses:
   utter_greet_user:
@@ -24,6 +32,11 @@ responses:
   - text: Your new PO number is XY2E4
   utter_ask_legacyPO_number:
   - text: can you please provide the legacy PO number?
+  utter_ask_SKU_number:
+  - text: can you please provide the SKU number?
+  - text: please provide the SKU number?
+  utter_ask_store_number:
+  - text: Enter the Store# where you would like to query SOH for item?
   # utter_greetInfo:
   # - text: I am demo bot.
   # utter_goodbye:
@@ -36,9 +49,12 @@ actions:
 - utter_on_it
 - utter_noworries
 - utter_ask_legacyPO_number
+- utter_ask_SKU_number
+- utter_ask_store_number
 # - utter_show_new_po
 - action_greet_user
 - action_show_new_po
+- action_fetch_SOH_details
 # - utter_goodbye
 # - utter_greetInfo
 

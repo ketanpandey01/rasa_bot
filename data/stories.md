@@ -2,7 +2,7 @@
 * greet
   - utter_greet
 
-## asking for legacyPO, without number
+<!-- ## asking for legacyPO, without number
 * legacyPO
  - utter_on_it
  - utter_ask_legacyPO_number
@@ -10,11 +10,26 @@
 
 ## asking for legacyPO, with number
 * legacyPO{"legacyPO_No":"123456"}
- - action_show_new_po
+ - action_show_new_po -->
 
- ## thank
+## asking for SKU, without number
+* SKU
+  - utter_on_it
+  - utter_ask_SKU_number
+
+## asking for SKU, with number
+* SKU{"SKU_No":"123456789"}
+  - slot{"SKU_No":"123456789"}
+  - utter_ask_store_number
+* Store{"store_No":"6789"}
+  - action_fetch_SOH_details
+
+
+## thank
 * thank
   - utter_noworries
+
+
 
 <!--
 ## goodbye
