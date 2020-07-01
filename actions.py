@@ -57,34 +57,65 @@ class ActionFetchSOHDetails(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        skuNo = tracker.get_slot("SKU_No")
-        storeNo = next(tracker.get_latest_entity_values("store_No"), None)
+        events = tracker.current_state()['events']
+        user_events = []
+        for e in events:
+            if e['event'] == 'user':
+                user_events.append(e)
+                
+        metadata = user_events[-1]['metadata']
 
-        print(skuNo)
-        print(storeNo)
-        try:
-            db = cx.Connection('vigarg_ts/GapInfosys1234$$@ISCRMSBE')
-            cursor = cx.Cursor(db)
-            sql = "select stock_on_hand from item_loc_soh where item = %d and loc = %d " % (
-                int(skuNo), int(storeNo))
-            print(sql)
-            cursor.execute(sql)
-            rmatrix = np.matrix(cursor.fetchmany())
-            print('Matrix size ', rmatrix.shape)
-            print('Item Store SOH Details \n', rmatrix[:1, :])
-            cursor.close()
-            db.close()
-            # if(rmatrix[:1, :]==[]):
-            #     dispatcher.utter_message(text="Data corresponding to your request doesn't exist")
-            #     dispatcher.utter_message(text="Please try with the correct sku/store number")
-            # else:
-            dispatcher.utter_message(text="Found these results")
-            dispatcher.utter_message(text=str(rmatrix[:1, :]))
-            return []
-        except Exception as e:
-            print("Uh oh, can't connect. Invalid dbname, user or password?")
-            print(e)
-            dispatcher.utter_message("I am not able to connect at the moment")
+        # return user_events[-1]['metadata']
+        if(metadata!={}):
+            print("Metadata: ",metadata)
+            dispatcher.utter_message(text=metadata)
+        else:
+            skuNo = tracker.get_slot("SKU_No")
+            storeNo = next(tracker.get_latest_entity_values("store_No"), None)
+
+            print("sku: ",skuNo)
+            print("store: ",storeNo)
+            try:
+                db = cx.Connection('vigarg_ts/GapInfosys1234$$@ISCRMSBE')
+                cursor = cx.Cursor(db)
+                sql = "select stock_on_hand from item_loc_soh where item = %d and loc = %d " % (int(skuNo), int(storeNo))
+                print(sql)
+                cursor.execute(sql)
+                rmatrix = np.matrix(cursor.fetchmany())
+                print('Matrix size ', rmatrix.shape)
+                print('Item Store SOH Details \n', rmatrix[:1, :])
+                cursor.close()
+                db.close()
+                # if(rmatrix[:1, :]==[]):
+                #     dispatcher.utter_message(text="Data corresponding to your request doesn't exist")
+                #     dispatcher.utter_message(text="Please try with the correct sku/store number")
+                # else:
+                dispatcher.utter_message(text="Found these results")
+                dispatcher.utter_message(text=str(rmatrix[:1, :]))
+                return []
+            except Exception as e:
+                print("Uh oh, can't connect. Invalid dbname, user or password?")
+                print(e)
+                dispatcher.utter_message("I am not able to connect at the moment")
+
+        
+
+class HandleRequestType(Action):
+    
+    def name(self) -> Text:
+        return "action_handle_request_type"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        reqType = next(tracker.get_latest_entity_values("requestType"), None)
+        print(reqType)
+        if(str(reqType).upper() =="SINGLE"):
+            dispatcher.utter_message(text="please provide the SKU number?")
+        else:
+            dispatcher.utter_message(text="please upload excel data", buttons=[{"title": "Upload Excel","payload": ""}])     
+            # dispatcher.utter_message(text="please upload excel data")
+            
+        return []
 
 
 # class ActionShowNewPO(Action):

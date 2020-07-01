@@ -7,15 +7,36 @@
 - hey there
 - How you doing
 
+## intent:SOHDetails
+- SOH details
+- soh details
+- I want to get soh details
+- I want to get SOH details
+- want to get SOH details
+- SOH
+- soh
+- want to request for SOH details
+- request for soh details
+
+## intent:requestType
+- [multiple](requestType)
+- [single](requestType)
+- i have a [multiple](requestType) request
+- I have a [single](requestType) request
+- i have [multiple](requestType) request
+- i have [single](requestType) request
+- [multiple](requestType) request
+- [single](requestType) request
+
 ## intent: SKU
 - SKU number
 - sku number
 - SKU
 - sku
+- sku number is [8989](SKU_No)
 - My sku number is [3018](SKU_No)
 - My SKU number is [1243](SKU_No)
 - SKU number is [3014](SKU_No)
-- [7351](SKU_No)
 - Hi, my sku number is [1234](SKU_No)
 - Hi, my SKU number is [7395](SKU_No)
 
@@ -23,9 +44,18 @@
 - My store number is [3018](store_No)
 - My store number is [1243](store_No)
 - store number is [7931](store_No)
-- [8962](store_No)
+- Store number is [5698](store_No)
 - Hi, my store number is [6789](store_No)
 - Hi, my store number is [7361](store_No)
+
+## intent: UploadAttachment
+- Upload Excel
+- Upload excel
+- excel upload
+- Excel upload
+- upload pdf
+- upload csv
+- upload file
 
 <!-- ## intent:legacyPO
 - legacy po

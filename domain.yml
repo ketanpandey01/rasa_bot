@@ -9,11 +9,15 @@ intents:
 - legacyPO_Number
 - SKU
 - Store
+- SOHDetails
+- requestType
+- UploadAttachment
 
 entities:
 - legacyPO_No
 - SKU_No
 - store_No
+- requestType
 
 slots:
   SKU_No:
@@ -37,6 +41,13 @@ responses:
   - text: please provide the SKU number?
   utter_ask_store_number:
   - text: Enter the Store# where you would like to query SOH for item?
+  utter_request_type:
+  - text: Please specify the request type?
+    buttons:
+    - title: "Single"
+      payload: "single"
+    - title: "Multiple"
+      payload: "multiple"
   # utter_greetInfo:
   # - text: I am demo bot.
   # utter_goodbye:
@@ -51,10 +62,12 @@ actions:
 - utter_ask_legacyPO_number
 - utter_ask_SKU_number
 - utter_ask_store_number
+- utter_request_type
 # - utter_show_new_po
 - action_greet_user
 - action_show_new_po
 - action_fetch_SOH_details
+- action_handle_request_type
 # - utter_goodbye
 # - utter_greetInfo
 
