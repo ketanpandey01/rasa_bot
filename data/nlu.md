@@ -17,18 +17,52 @@
 - soh
 - want to request for SOH details
 - request for soh details
+- Get SOH details
+- get soh details
 
-## intent:requestType
-- [multiple](requestType)
-- [single](requestType)
-- i have a [multiple](requestType) request
-- I have a [single](requestType) request
-- i have [multiple](requestType) request
-- i have [single](requestType) request
-- [multiple](requestType) request
-- [single](requestType) request
+## intent:legacyPO
+- legacy po
+- legacy PO
+- legacyPo
+- legacyPO
+- legacy_po
+- legacy_PO
+- hi, i want to know my legacy po
+- Hi, I want to know my legacy po
+- Hi, How can I order an item?
 
-## intent: SKU
+## intent: singleRequest
+- single
+- I have a single request
+- i have single request
+- single request
+
+## intent: multipleRequest
+- multiple
+- i have a multiple request
+- i have multiple request
+- multiple request
+
+## intent: inform
+- sku number is 301834468
+- My sku number is 301831697
+- My SKU number is 3018439551
+- SKU number is 301834915
+- Hi, my sku number is 307531596
+- Hi, my SKU number is 301837644
+- My store number is 1406
+- My store number is 1496
+- store number is 6832
+- Store number is 7698
+- Hi, my store number is 1453
+- Hi, my store number is 1253
+- sure, legacyPO number is 42341
+- legacyPO is 52342
+- my legacyPO number is 19923
+- legacy po number is 898989
+- po number is 745236
+
+<!-- ## intent: SKU
 - SKU number
 - sku number
 - SKU
@@ -46,7 +80,7 @@
 - store number is [7931](store_No)
 - Store number is [5698](store_No)
 - Hi, my store number is [6789](store_No)
-- Hi, my store number is [7361](store_No)
+- Hi, my store number is [7361](store_No) -->
 
 ## intent: UploadAttachment
 - Upload Excel
@@ -57,23 +91,6 @@
 - upload csv
 - upload file
 
-<!-- ## intent:legacyPO
-- legacy po
-- legacy PO
-- legacyPo
-- legacyPO
-- legacy_po
-- legacy_PO
-- hi, i want to know my legacy po
-- Hi, I want to know my legacy po
-- Hi, How can I order an item?
-- sure, legacyPO number is [42341](legacyPO_No)
-- legacyPO is [52342](legacyPO_No)
-- [81249](legacyPO_No)
-- [14354](legacyPO_No)
-- [54861](legacyPO_No)
-- [98257](legacyPO_No)
-- my legacyPO number is [19923](legacyPO_No) -->
 
 <!-- ## intent:legacyPO_Number
 - sure, legacyPO number is [42341](legacyPO_No)

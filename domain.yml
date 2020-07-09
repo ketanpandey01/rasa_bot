@@ -6,48 +6,67 @@ intents:
 - greet
 - legacyPO
 - thank
-- legacyPO_Number
-- SKU
-- Store
+# - legacyPO_Number
+# - SKU
+# - Store
 - SOHDetails
-- requestType
 - UploadAttachment
+- singleRequest
+- multipleRequest
+- inform
 
 entities:
 - legacyPO_No
 - SKU_No
 - store_No
-- requestType
 
 slots:
   SKU_No:
     type: unfeaturized
+  store_No:
+    type: unfeaturized
+  legacyPo:
+    type: unfeaturized
 
 responses:
   utter_greet_user:
-  - text: Hello! How may I help you today?
+  - text: Hello there, I am the service bot Of GAP, powered by AI.
+  utter_choose_conversation_path:
+  - text: "Here is what I can do for you:"
+    custom:
+      payload: quickReplies
+      data: 
+        - title: "Get SOH details"
+          payload: "SOH"
+        - title: "Legacy PO"
+          payload: "legacy po"
   utter_greet:
   - text: Hey! How are you?
   utter_on_it:
   - text: I understand your request.
   utter_noworries:
   - text: No worries!
-  utter_show_new_po:
-  - text: Your new PO number is XY2E4
-  utter_ask_legacyPO_number:
-  - text: can you please provide the legacy PO number?
-  utter_ask_SKU_number:
-  - text: can you please provide the SKU number?
-  - text: please provide the SKU number?
-  utter_ask_store_number:
+  utter_ask_legacyPo:
+  - text: Please provide the legacy PO number?
+  utter_ask_SKU_No:
+  - text: Can you please provide the SKU number?
+  - text: Please provide the SKU number?
+  utter_ask_store_No:
   - text: Enter the Store# where you would like to query SOH for item?
   utter_request_type:
   - text: Please specify the request type?
+    custom:
+      payload: quickReplies
+      data: 
+        - title: "Single Request"
+          payload: "single"
+        - title: "Multi Request"
+          payload: "multiple"
+  utter_uploadAttachment:
+  - text: "Please upload excel data"
     buttons:
-    - title: "Single"
-      payload: "single"
-    - title: "Multiple"
-      payload: "multiple"
+    - title: "Upload Excel"
+      payload: ""
   # utter_greetInfo:
   # - text: I am demo bot.
   # utter_goodbye:
@@ -60,17 +79,21 @@ actions:
 - utter_on_it
 - utter_noworries
 - utter_ask_legacyPO_number
-- utter_ask_SKU_number
-- utter_ask_store_number
+- utter_ask_SKU_No
+- utter_ask_store_No
 - utter_request_type
+- utter_uploadAttachment
 # - utter_show_new_po
 - action_greet_user
 - action_show_new_po
-- action_fetch_SOH_details
-- action_handle_request_type
+- action_fetch_multi_SOH_details
+# - action_handle_request_type
 # - utter_goodbye
 # - utter_greetInfo
 
+forms:
+  - sohDetails_form
+  - legacypo_form
 
 
 # forms:
