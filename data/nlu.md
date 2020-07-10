@@ -44,23 +44,52 @@
 - multiple request
 
 ## intent: inform
+- 301834468
+- 301831697
+- 3018439551
+- 301834915
+- 307531596
+- 1406
+- 1496
+- 6832
+- 7698
+- 1453
+- 1255
+- 42341
+- 745236
+- 898989
+- 19923
+- 52342
 - sku number is 301834468
 - My sku number is 301831697
 - My SKU number is 3018439551
 - SKU number is 301834915
 - Hi, my sku number is 307531596
 - Hi, my SKU number is 301837644
+- sku number is 3018343214
+- My sku number is 301873542
+- My SKU number is 3018985234
+- SKU number is 307355203
+- Hi, my sku number is 3096331596
+- Hi, my SKU number is 301834434
 - My store number is 1406
 - My store number is 1496
 - store number is 6832
 - Store number is 7698
 - Hi, my store number is 1453
 - Hi, my store number is 1253
-- sure, legacyPO number is 42341
-- legacyPO is 52342
-- my legacyPO number is 19923
-- legacy po number is 898989
-- po number is 745236
+- My store number is 1436
+- My store number is 1730
+- store number is 6788
+- Store number is 75135
+- Hi, my store number is 4513
+- Hi, my store number is 9933
+- sure, legacyPO number is LB5HER
+- legacyPO is OE5BYS
+- my legacyPO number is QM3KEX
+- legacy po number is KQ9DND
+- po number is GS5VTE
+- PO is LO9VBS
 
 <!-- ## intent: SKU
 - SKU number

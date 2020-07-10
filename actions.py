@@ -17,6 +17,7 @@ from rasa_sdk.events import SlotSet, UserUtteranceReverted
 import cx_Oracle as cx
 import numpy as np
 import json
+import spacy
 #
 #
 # class ActionHelloWorld(Action):
@@ -83,10 +84,10 @@ class ActionFetchMultiSOHDetails(Action):
                 try:
                     db = cx.Connection('vigarg_ts/GapInfosys1234$$@ISCRMSBE')
                     cursor = cx.Cursor(db)
-                    sql = "select item, loc, stock_on_hand from item_loc_soh where item = %d and loc = %d " % (int(row["ITEM"]), int(row["LOC"]))
+                    sql = "select unit_cost from item_loc_soh where item = %d and loc = %d " % (int(row["ITEM"]), int(row["LOC"]))
                     cursor.execute(sql)
                     res = cursor.fetchone()
-                    outputRow["Result"] = res
+                    outputRow["UnitCost"] = res
                     outputJson.append(outputRow)
                 except Exception as e:
                     print("Uh oh, can't connect. Invalid dbname, user or password?")
@@ -132,35 +133,49 @@ class SOHDetailsForm(FormAction):
         - a whole message
         or a list of them, where a first match will be picked"""
 
-        return {"SKU_No": [self.from_text(intent="inform")], "store_No": [self.from_text(intent="inform")]}
+        return {"SKU_No": [self.from_text()], "store_No": [self.from_text()]}
 
-    # def validate_SKU_No(self,value: Text,dispatcher: CollectingDispatcher,tracker: Tracker,domain: Dict[Text, Any],) -> Dict[Text, Any]:
-    #     """Validate cuisine value."""
+    def validate_SKU_No(self,value: Text,dispatcher: CollectingDispatcher,tracker: Tracker,domain: Dict[Text, Any],) -> Dict[Text, Any]:
+        """Validate cuisine value."""
 
-    #     print(value)
+        print("SKU1: ",value)
+        nlp = spacy.load("en_core_web_sm")
+        doc = nlp(value)
+        skuNo = None
+        for token in doc:
+            if token.like_num:
+                skuNo = token
+                break
+        print("SKU2: ", skuNo)
+        if skuNo==None:
+            # validation failed, set this slot to None, meaning the
+            # user will be asked for the slot again
+            # dispatcher.utter_message(template="utter_wrong_SKU_No")
+            return {"SKU_No": None}
+        else:
+            # validation succeeded, set the value of the "SKU_No" slot to value
+            return {"SKU_No": skuNo.text}
 
-    #     if value.lower() in self.cuisine_db():
-    #         # validation succeeded, set the value of the "cuisine" slot to value
-    #         return {"cuisine": value}
-    #     else:
-    #         dispatcher.utter_message(template="utter_wrong_cuisine")
-    #         # validation failed, set this slot to None, meaning the
-    #         # user will be asked for the slot again
-    #         return {"cuisine": None}
+    def validate_store_No(self,value: Text,dispatcher: CollectingDispatcher,tracker: Tracker,domain: Dict[Text, Any],) -> Dict[Text, Any]:
+        """Validate cuisine value."""
 
-    # def validate_store_No(self,value: Text,dispatcher: CollectingDispatcher,tracker: Tracker,domain: Dict[Text, Any],) -> Dict[Text, Any]:
-    #     """Validate cuisine value."""
-
-    #     print(value)
-
-    #     # if value.lower() in self.cuisine_db():
-    #     #     # validation succeeded, set the value of the "cuisine" slot to value
-    #     #     return {"cuisine": value}
-    #     # else:
-    #     #     dispatcher.utter_message(template="utter_wrong_cuisine")
-    #     #     # validation failed, set this slot to None, meaning the
-    #     #     # user will be asked for the slot again
-    #     #     return {"cuisine": None}
+        print("store1: ",value)
+        nlp = spacy.load("en_core_web_sm")
+        doc = nlp(value)
+        storeNo = None
+        for token in doc:
+            if token.like_num:
+                storeNo = token
+                break
+        print("store2: ",storeNo)
+        if storeNo==None:
+            # validation failed, set this slot to None, meaning the
+            # user will be asked for the slot again
+            # dispatcher.utter_message(template="utter_wrong_store_No")
+            return {"store_No": None}
+        else:
+            # validation succeeded, set the value of the "store_No" slot to value
+            return {"store_No": storeNo.text}
 
     def submit(self,dispatcher: CollectingDispatcher,tracker: Tracker,domain: Dict[Text, Any],) -> List[Dict]:
         skuNo = tracker.get_slot("SKU_No")
@@ -173,17 +188,22 @@ class SOHDetailsForm(FormAction):
             sql = "select stock_on_hand from item_loc_soh where item = %d and loc = %d " % (int(skuNo), int(storeNo))
             print(sql)
             cursor.execute(sql)
-            rmatrix = np.matrix(cursor.fetchmany())
-            print('Matrix size ', rmatrix.shape)
-            print('Item Store SOH Details \n', rmatrix[:1, :])
+            res = cursor.fetchone()
+            # print('Matrix size ', rmatrix.shape)
+            # print('Item Store SOH Details \n', rmatrix[:1, :])
             cursor.close()
             db.close()
                 # if(rmatrix[:1, :]==[]):
                 #     dispatcher.utter_message(text="Data corresponding to your request doesn't exist")
                 #     dispatcher.utter_message(text="Please try with the correct sku/store number")
                 # else:
-            dispatcher.utter_message(text="Found these results")
-            dispatcher.utter_message(text=str(rmatrix[:1, :]))
+            if res==None:    
+                dispatcher.utter_message(text="No information found for your query. Please provide the correct details")
+            else:
+                #310691496
+                resultStr = "SOH Details: "+'<br>'
+                resultStr += "SKU No: " + skuNo + '<br>' + "Store No: " + storeNo + '<br>' + "Stock on hand: " + str(res[0])
+                dispatcher.utter_message(text=resultStr)
             return []
         except Exception as e:
             print("Uh oh, can't connect. Invalid dbname, user or password?")
@@ -208,7 +228,28 @@ class LegacyPoForm(FormAction):
         - a whole message
         or a list of them, where a first match will be picked"""
 
-        return {"legacyPo": [self.from_text(intent="inform")]}
+        return {"legacyPo": [self.from_text()]}
+
+    def validate_legacyPo(self,value: Text,dispatcher: CollectingDispatcher,tracker: Tracker,domain: Dict[Text, Any],) -> Dict[Text, Any]:
+        """Validate legacyPo value."""
+
+        # print(value)
+        # nlp = spacy.load("en_core_web_sm")
+        # doc = nlp(value)
+        legacyPo_No = value
+        # for token in doc:
+        #     if token.is_alpha and token.is_digit:
+        #         legacyPo_No = token
+        #         break
+        print("legacyPO: ",legacyPo_No)
+        if legacyPo_No==None:
+            # validation failed, set this slot to None, meaning the
+            # user will be asked for the slot again
+            # dispatcher.utter_message(template="utter_wrong_legacyPo")
+            return {"legacyPo": None}
+        else:
+            # validation succeeded, set the value of the "legacyPo" slot to value
+            return {"legacyPo": legacyPo_No}
 
 
     def submit(self,dispatcher: CollectingDispatcher,tracker: Tracker,domain: Dict[Text, Any],) -> List[Dict]:
@@ -218,15 +259,19 @@ class LegacyPoForm(FormAction):
         try:
             db = cx.Connection('vigarg_ts/GapInfosys1234$$@ISCRMSBE')
             cursor = cx.Cursor(db)
-            sql = "select egi_ord_nbr from POORX_PO_XREF_T where PO_PFX_NBR||PO_DC_ID = %d " % int(legacyPo)
+            # sql = "select egi_ord_nbr from POORX_PO_XREF_T where PO_PFX_NBR||PO_DC_ID = %d " % legacyPo
+            sql = "select PO_PFX_NBR||PO_DC_ID as LEGACY_ORD_NBR, egi_ord_nbr from POORX_PO_XREF_T where PO_PFX_NBR||PO_DC_ID = '%s' " % (legacyPo)
             print(sql)
             cursor.execute(sql)
-            rmatrix = np.matrix(cursor.fetchmany())
-            print('Matrix size ', rmatrix.shape)
-            print('LegacyPo \n', rmatrix[:1, :])
+            res = cursor.fetchone()
             cursor.close()
             db.close()
-            dispatcher.utter_message(text=rmatrix)
+            if res==None:    
+                dispatcher.utter_message(text="No information found for your query. Please provide the correct details")
+            else:
+                resultStr = "PO Details: "+'<br>'
+                resultStr += "LegacyPo No: " + legacyPo + '<br>' + "NewPo No: " + str(res[1])
+                dispatcher.utter_message(text=resultStr)
             return []
         except Exception as e:
             print("Uh oh, can't connect. Invalid dbname, user or password?")

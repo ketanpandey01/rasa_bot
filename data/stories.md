@@ -9,9 +9,9 @@
   - form{"name": null}
  <!-- - utter_ask_legacyPO_number -->
 
-## asking for legacyPO, with number
+<!-- ## asking for legacyPO, with number
 * legacyPO{"legacyPO_No":"123456"}
- - action_show_new_po
+ - action_show_new_po -->
 
 ## asking for multiple SOH details
 * SOHDetails

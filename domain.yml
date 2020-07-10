@@ -67,6 +67,12 @@ responses:
     buttons:
     - title: "Upload Excel"
       payload: ""
+  utter_wrong_SKU_No:
+  - text: Please provide the correct sku number
+  utter_wrong_store_No:
+  - text: Please provide the correct store number
+  utter_wrong_legacyPo:
+  - text: Please provide the correct Po number
   # utter_greetInfo:
   # - text: I am demo bot.
   # utter_goodbye:
