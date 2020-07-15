@@ -14,6 +14,7 @@ intents:
 - singleRequest
 - multipleRequest
 - inform
+- chitchat
 
 entities:
 - legacyPO_No
@@ -80,6 +81,7 @@ responses:
  
 
 actions:
+- respond_chitchat
 - utter_greet
 - utter_greet_user
 - utter_on_it

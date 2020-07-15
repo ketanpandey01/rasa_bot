@@ -1,6 +1,6 @@
-## greet
-* greet
-  - utter_greet
+## story_0
+* chitchat
+  - respond_chitchat
 
 ## asking for legacyPO, without number
 * legacyPO
