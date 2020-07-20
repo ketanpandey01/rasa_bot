@@ -31,7 +31,7 @@
 
 ## help
 * chitchat/help
-    - I can help you, just type "menu"
+    - I can help you, just type "soh details" or "legacypo"
 
 ## can help
 * chitchat/cantHelp

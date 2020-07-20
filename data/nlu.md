@@ -19,6 +19,10 @@
 - request for soh details
 - Get SOH details
 - get soh details
+- show SOH details
+- show soh details
+- I want to see soh details
+- I want to see SOH details
 
 ## intent:legacyPO
 - legacy po
@@ -90,6 +94,12 @@
 - legacy po number is KQ9DND
 - po number is GS5VTE
 - PO is LO9VBS
+- LB5HER
+- OE5BYS
+- QM3KEX
+- KQ9DND
+- GS5VTE
+- LO9VBS
 
 <!-- ## intent: SKU
 - SKU number

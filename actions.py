@@ -47,17 +47,17 @@ class ActionGreetUser(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         dispatcher.utter_message(template="utter_greet_user")
-        dispatcher.utter_message(template="utter_choose_conversation_path")
+        # dispatcher.utter_message(template="utter_choose_conversation_path")
         return [UserUtteranceReverted()]
 
 
-class ActionFetchMultiSOHDetails(Action):
+class ActionFetchMultiDetails(Action):
     """
     Show more results of the restaurants
     """
 
     def name(self) -> Text:
-        return "action_fetch_multi_SOH_details"
+        return "action_fetch_multi_details"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
@@ -72,29 +72,40 @@ class ActionFetchMultiSOHDetails(Action):
         # return user_events[-1]['metadata']
         if(metadata != {}):
             # dispatcher.utter_message(text=metadata)
-            excelData = json.loads(metadata)
-            outputJson = []
-            for row in excelData:
-                print(row["ITEM"])
-                print(row["LOC"])
-                outputRow = {}
-                # outputRow["outputSKU"] = row["SKU"]
-                # outputRow["outputStore"] = row["Store"]
-                # outputJson.append(outputRow)
-                try:
-                    db = cx.Connection('vigarg_ts/GapInfosys1234$$@ISCRMSBE')
-                    cursor = cx.Cursor(db)
-                    sql = "select unit_cost from item_loc_soh where item = %d and loc = %d " % (int(row["ITEM"]), int(row["LOC"]))
-                    cursor.execute(sql)
-                    res = cursor.fetchone()
-                    outputRow["UnitCost"] = res
-                    outputJson.append(outputRow)
-                except Exception as e:
-                    print("Uh oh, can't connect. Invalid dbname, user or password?")
-                    print(e)
-            print(json.dumps(outputJson))
-            message = {"payload": "excelData", "data": json.dumps(outputJson)}
-            dispatcher.utter_message(text="Ouput Excel Generated", json_message=message)
+            try:
+                db = cx.Connection('vigarg_ts/GapInfosys1234$$@ISCRMSBE')
+                cursor = cx.Cursor(db)
+                excelData = json.loads(metadata)
+                outputJson = []
+                if('ITEM' in excelData[0].keys()):
+                    for row in excelData:
+                        print(row["ITEM"],row["LOC"])
+                        sql = "select unit_cost from item_loc_soh where item = %d and loc = %d " % (int(row["ITEM"]), int(row["LOC"]))
+                        cursor.execute(sql)
+                        res = cursor.fetchone()
+                        outputRow = {}
+                        outputRow["UnitCost"] = res
+                        outputJson.append(outputRow)
+                elif('LEGACY_ORD_NO' in excelData[0].keys()):
+                    for row in excelData:
+                        print(row["LEGACY_ORD_NO"])
+                        sql = "select PO_PFX_NBR||PO_DC_ID as LEGACY_ORD_NBR, egi_ord_nbr from POORX_PO_XREF_T where PO_PFX_NBR||PO_DC_ID = '%s' " % (row["LEGACY_ORD_NO"])
+                        cursor.execute(sql)
+                        res = cursor.fetchone()                      
+                        outputRow = {}
+                        outputRow["NewPO"] = res[1]
+                        outputJson.append(outputRow)
+                
+                print(json.dumps(outputJson))
+                message = {"payload": "excelData", "data": json.dumps(outputJson)}
+                dispatcher.utter_message(text="Ouput Excel Generated", json_message=message)
+            except Exception as e:
+                print("Uh oh, can't connect. Invalid dbname, user or password?")
+                print(e)
+                dispatcher.utter_message(text="Cannot fulfill your request right now")
+
+
+            
 
 
 # class HandleRequestType(Action):
@@ -133,7 +144,7 @@ class SOHDetailsForm(FormAction):
         - a whole message
         or a list of them, where a first match will be picked"""
 
-        return {"SKU_No": [self.from_text()], "store_No": [self.from_text()]}
+        return {"SKU_No": [self.from_text(not_intent="chitchat")], "store_No": [self.from_text(not_intent="chitchat")]}
 
     def validate_SKU_No(self,value: Text,dispatcher: CollectingDispatcher,tracker: Tracker,domain: Dict[Text, Any],) -> Dict[Text, Any]:
         """Validate cuisine value."""
@@ -228,7 +239,7 @@ class LegacyPoForm(FormAction):
         - a whole message
         or a list of them, where a first match will be picked"""
 
-        return {"legacyPo": [self.from_text()]}
+        return {"legacyPo": [self.from_text(not_intent="chitchat")]}
 
     def validate_legacyPo(self,value: Text,dispatcher: CollectingDispatcher,tracker: Tracker,domain: Dict[Text, Any],) -> Dict[Text, Any]:
         """Validate legacyPo value."""

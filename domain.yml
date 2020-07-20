@@ -1,46 +1,40 @@
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
-
 intents:
 - greet
 - legacyPO
 - thank
-# - legacyPO_Number
-# - SKU
-# - Store
 - SOHDetails
 - UploadAttachment
 - singleRequest
 - multipleRequest
 - inform
 - chitchat
-
 entities:
 - legacyPO_No
 - SKU_No
 - store_No
-
 slots:
   SKU_No:
     type: unfeaturized
-  store_No:
-    type: unfeaturized
   legacyPo:
     type: unfeaturized
-
+  store_No:
+    type: unfeaturized
 responses:
   utter_greet_user:
-  - text: Hello there, I am the service bot Of GAP, powered by AI.
+  - text: Hello there, I am the service bot Of GAP, powered by AI. What can I do for
+      you today?
   utter_choose_conversation_path:
-  - text: "Here is what I can do for you:"
-    custom:
+  - custom:
+      data:
+      - payload: SOH
+        title: Get SOH details
+      - payload: legacy po
+        title: Legacy PO
       payload: quickReplies
-      data: 
-        - title: "Get SOH details"
-          payload: "SOH"
-        - title: "Legacy PO"
-          payload: "legacy po"
+    text: 'Here is what I can do for you:'
   utter_greet:
   - text: Hey! How are you?
   utter_on_it:
@@ -55,31 +49,28 @@ responses:
   utter_ask_store_No:
   - text: Enter the Store# where you would like to query SOH for item?
   utter_request_type:
-  - text: Please specify the request type?
-    custom:
+  - custom:
+      data:
+      - payload: single
+        title: Single Request
+      - payload: multiple
+        title: Multi Request
       payload: quickReplies
-      data: 
-        - title: "Single Request"
-          payload: "single"
-        - title: "Multi Request"
-          payload: "multiple"
+    text: Please specify the request type?
   utter_uploadAttachment:
-  - text: "Please upload excel data"
-    buttons:
-    - title: "Upload Excel"
-      payload: ""
+  - buttons:
+    - payload: ''
+      title: Upload Excel
+    text: Please upload excel data
   utter_wrong_SKU_No:
   - text: Please provide the correct sku number
   utter_wrong_store_No:
   - text: Please provide the correct store number
   utter_wrong_legacyPo:
   - text: Please provide the correct Po number
-  # utter_greetInfo:
-  # - text: I am demo bot.
-  # utter_goodbye:
-  # - text: Bye
- 
-
+  utter_default:
+  - text: Sorry, Cannot understand you.
+  
 actions:
 - respond_chitchat
 - utter_greet
@@ -91,18 +82,14 @@ actions:
 - utter_ask_store_No
 - utter_request_type
 - utter_uploadAttachment
-# - utter_show_new_po
 - action_greet_user
 - action_show_new_po
-- action_fetch_multi_SOH_details
-# - action_handle_request_type
-# - utter_goodbye
-# - utter_greetInfo
-
+- action_fetch_multi_details
+- utter_choose_conversation_path
+- utter_ask_legacyPo
+- utter_wrong_SKU_No
+- utter_wrong_store_No
+- utter_wrong_legacyPo
 forms:
-  - sohDetails_form
-  - legacypo_form
-
-
-# forms:
-# - order_form
+- sohDetails_form
+- legacypo_form
