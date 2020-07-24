@@ -11,6 +11,7 @@ intents:
 - multipleRequest
 - inform
 - chitchat
+- out_of_scope
 entities:
 - legacyPO_No
 - SKU_No
@@ -34,7 +35,7 @@ responses:
       - payload: legacy po
         title: Legacy PO
       payload: quickReplies
-    text: 'Here is what I can do for you:'
+    text: "Sorry, I'm not sure I've understood you correctly. Here is what I can do for you:"
   utter_greet:
   - text: Hey! How are you?
   utter_on_it:
@@ -69,7 +70,9 @@ responses:
   utter_wrong_legacyPo:
   - text: Please provide the correct Po number
   utter_default:
-  - text: Sorry, Cannot understand you.
+  - text: Sorry, didn't understand you
+  utter_ask_rephrase:
+  - text: can you please rephrase your message again
   
 actions:
 - respond_chitchat
@@ -85,6 +88,7 @@ actions:
 - action_greet_user
 - action_show_new_po
 - action_fetch_multi_details
+- action_default_ask_affirmation
 - utter_choose_conversation_path
 - utter_ask_legacyPo
 - utter_wrong_SKU_No

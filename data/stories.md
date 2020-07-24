@@ -2,6 +2,7 @@
 * chitchat
   - respond_chitchat
 
+
 ## asking for single SOH details(without chitchat)
 * SOHDetails
   - utter_request_type

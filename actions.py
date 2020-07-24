@@ -289,6 +289,33 @@ class LegacyPoForm(FormAction):
             print(e)
             return []
 
+class ActionDefaultAskAffirmation(Action):
+   """Asks for an affirmation of the intent if NLU threshold is not met."""
+
+   def name(self):
+       return "action_default_ask_affirmation"
+
+
+   def run(self, dispatcher, tracker, domain):
+    #    # get the most likely intent
+    #    last_intent_name = tracker.latest_message['intent']['name']
+
+    #    # get the prompt for the intent
+    #    intent_prompt = self.intent_mappings[last_intent_name]
+
+    #    # Create the affirmation message and add two buttons to it.
+    #    # Use '/<intent_name>' as payload to directly trigger '<intent_name>'
+    #    # when the button is clicked.
+    #    message = "Sorry, I'm not sure I've understood you correctly. I can help you with the following: "
+    #    buttons = [{'title': 'Yes',
+    #                'payload': '/{}'.format(last_intent_name)},
+    #               {'title': 'No',
+    #                'payload': '/out_of_scope'}]
+    #    dispatcher.utter_button_message(message, buttons=buttons)
+       dispatcher.utter_message(template="utter_choose_conversation_path")
+
+       return []
+
         
 
 # class ActionShowNewPO(Action):
