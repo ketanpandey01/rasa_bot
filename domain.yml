@@ -12,6 +12,7 @@ intents:
 - inform
 - chitchat
 - out_of_scope
+- GLM
 entities:
 - legacyPO_No
 - SKU_No
@@ -34,6 +35,8 @@ responses:
         title: Get SOH details
       - payload: legacy po
         title: Legacy PO
+      - payload: GLM
+        title: Find GL Mapping
       payload: quickReplies
     text: "Sorry, I'm not sure I've understood you correctly. Here is what I can do for you:"
   utter_greet:

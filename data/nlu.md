@@ -26,6 +26,20 @@
 - Hi, I want to know my legacy po
 - Hi, How can I order an item?
 
+## intent:GLM
+- GL mapping
+- GL Mapping
+- gl mapping
+- glmapping
+- find gl mapping
+- find GL mapping
+- find GL Mapping
+- find GLM
+- GLM
+- glm
+- can you pls find gl mapping?
+- pls find GLM mapping?
+
 ## intent: singleRequest
 - single
 - I have a single request

@@ -20,6 +20,6 @@
 
 ## help
 * chitchat/help
-    - I can help you, just type "soh details" or "legacypo"
+    - I can help you, just type "soh details", "legacypo", or "GL mapping"
 
 

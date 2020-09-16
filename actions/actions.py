@@ -12,7 +12,7 @@ from typing import Any, Text, Dict, List, Union
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import FormAction
-import psycopg2
+# import psycopg2
 from rasa_sdk.events import SlotSet, UserUtteranceReverted
 import cx_Oracle as cx
 import numpy as np
@@ -73,7 +73,7 @@ class ActionFetchMultiDetails(Action):
         if(metadata != {}):
             # dispatcher.utter_message(text=metadata)
             try:
-                db = cx.Connection('vigarg_ts/GapInfosys1234$$@ISCRMSBE')
+                db = cx.Connection('vigarg_ts/GapInfosys1029$$@ISCRMSBE')
                 cursor = cx.Cursor(db)
                 excelData = json.loads(metadata)
                 outputJson = []
@@ -194,7 +194,7 @@ class SOHDetailsForm(FormAction):
         print("sku: ", skuNo)
         print("store: ", storeNo)
         try:
-            db = cx.Connection('vigarg_ts/GapInfosys1234$$@ISCRMSBE')
+            db = cx.Connection('vigarg_ts/GapInfosys1029$$@ISCRMSBE')
             cursor = cx.Cursor(db)
             sql = "select stock_on_hand from item_loc_soh where item = %d and loc = %d " % (int(skuNo), int(storeNo))
             print(sql)
@@ -268,7 +268,7 @@ class LegacyPoForm(FormAction):
         legacyPo = tracker.get_slot("legacyPo")
         print("legacyPO :",legacyPo)
         try:
-            db = cx.Connection('vigarg_ts/GapInfosys1234$$@ISCRMSBE')
+            db = cx.Connection('vigarg_ts/GapInfosys1029$$@ISCRMSBE')
             cursor = cx.Cursor(db)
             # sql = "select egi_ord_nbr from POORX_PO_XREF_T where PO_PFX_NBR||PO_DC_ID = %d " % legacyPo
             sql = "select PO_PFX_NBR||PO_DC_ID as LEGACY_ORD_NBR, egi_ord_nbr from POORX_PO_XREF_T where PO_PFX_NBR||PO_DC_ID = '%s' " % (legacyPo)
@@ -330,7 +330,7 @@ class ActionDefaultAskAffirmation(Action):
 #         legacyPo=next(tracker.get_latest_entity_values("legacyPO_No"), None)
 #         print(legacyPo)
 #         try:
-#             db = cx.Connection('vigarg_ts/GapInfosys1234$$@ISCRMSBE')
+#             db = cx.Connection('vigarg_ts/GapInfosys1029$$@ISCRMSBE')
 #             cursor = cx.Cursor(db)
 #             sql = "select egi_ord_nbr from POORX_PO_XREF_T where PO_PFX_NBR||PO_DC_ID = %d " % (legacyPo)
 #             print(sql)
