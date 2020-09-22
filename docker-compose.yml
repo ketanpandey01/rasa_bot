@@ -8,7 +8,13 @@ services:
       - ./:/app
     command:
       - run
+      - -m
+      - models
+      - --enable-api
+      - --cors
+      - "*"
+      - --debug
   app:
-    image: ketanp01/customeaction:v1
+    image: ketanp01/customaction:v3
     expose: 
       - 5055
