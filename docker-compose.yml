@@ -15,6 +15,6 @@ services:
       - "*"
       - --debug
   app:
-    image: ketanp01/customaction:v3
+    image: ketanp01/customaction:v5
     expose: 
       - 5055

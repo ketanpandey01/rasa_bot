@@ -92,6 +92,7 @@ actions:
 - action_show_new_po
 - action_fetch_multi_details
 - action_default_ask_affirmation
+- action_find_GL_mapping
 - utter_choose_conversation_path
 - utter_ask_legacyPo
 - utter_wrong_SKU_No

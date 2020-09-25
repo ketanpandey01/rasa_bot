@@ -316,6 +316,36 @@ class ActionDefaultAskAffirmation(Action):
 
        return []
 
+class ActionFindGLMapping(Action):
+    """
+    Show more results of the restaurants
+    """
+
+    def name(self) -> Text:
+        return "action_find_GL_mapping"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        try:
+            db = cx.Connection('vigarg_ts/GapInfosys1029$$@ISCRMSBE')
+            cursor = cx.Cursor(db)
+            outputJson = []
+            glMappingSQL = "SELECT DISTINCT a.dept, a.location, a.tran_code, DECODE (a.tran_code,'23', a.gl_ref_no, -1) tran_ref_no, 'C' cost_retail_flag FROM tran_data_history a WHERE post_date BETWEEN (SELECT last_eom_date + 1 FROM system_variables ) AND (SELECT next_eom_date FROM system_variables) AND tran_code IN ( select substr(code,0,2) from code_detail where code_type='GLMT') UNION SELECT DISTINCT a.dept, a.location, a.tran_code, DECODE (a.tran_code,'23', a.gl_ref_no, -1) tran_ref_no, 'C' cost_retail_flag FROM tran_data a WHERE tran_date BETWEEN (SELECT last_eom_date + 1 FROM system_variables) AND (SELECT next_eom_date FROM system_variables) AND tran_code IN (select substr(code,0,2) from code_detail where code_type='GLMT') MINUS /*The below sql will get all available mapping in GL */ SELECT DISTINCT b.dept, b.location, b.tran_code, NVL (b.tran_ref_no, -1) tran_ref_no, b.cost_retail_flag FROM fif_gl_cross_ref b WHERE tran_code IN (select substr(code,0,2) from code_detail where code_type='GLMT') UNION SELECT DISTINCT a.dept, a.location, 51 tran_code, NULL tran_ref_no, 'C' cost_retail_flag FROM month_data a WHERE eom_date = (SELECT next_eom_date FROM system_variables) AND (nvl(stocktake_bookstk_cost,0) - nvl(stocktake_actstk_cost,0)) <> 0 MINUS /*The below sql will get all available mapping in GL */ SELECT DISTINCT b.dept, b.location, 51 tran_code, NULL tran_ref_no, b.cost_retail_flag FROM fif_gl_cross_ref b WHERE tran_code = 51 UNION SELECT DISTINCT a.dept, a.location, DECODE (a.tran_code,1,51,41,51,a.tran_code) tran_code, NULL tran_ref_no, 'C' cost_retail_flag FROM tran_data_history a WHERE post_date BETWEEN (SELECT last_eom_date FROM system_variables) AND (SELECT next_eom_date FROM system_variables) AND tran_code IN ('1','41') UNION SELECT DISTINCT a.dept, a.location, DECODE (a.tran_code, 1, 51,41,51,a.tran_code) tran_code, NULL tran_ref_no, 'C' cost_retail_flag FROM tran_data a WHERE tran_date BETWEEN (SELECT last_eom_date FROM system_variables) AND (SELECT next_eom_date FROM system_variables) AND tran_code IN ('1', '41') MINUS /*The below sql will get all available mapping in GL */ SELECT DISTINCT b.dept, b.location, b.tran_code, NULL tran_ref_no, b.cost_retail_flag FROM fif_gl_cross_ref b WHERE tran_code ='51' ORDER BY 3,2,1"
+            cursor.execute(glMappingSQL)
+            res = cursor.fetchall()
+            if(res is not None):
+                for row in res:
+                    outputJson.append({'DEPT': row[0], 'LOCATION': row[1], 'TRAN_CODE': row[2], 'TRAN_REF_NO': row[3], 'COST_RETAIL_FLAG': row[4]})
+                print(json.dumps(outputJson))
+                
+            message = {"payload": "excelData", "data": json.dumps(outputJson)}
+            dispatcher.utter_message(text="GL Mapping Excel Generated", json_message=message)
+        except Exception as e:
+            print("Uh oh, can't connect. Invalid dbname, user or password?")
+            print(e)
+            dispatcher.utter_message(text="Cannot fulfill your request right now")
+
+
         
 
 # class ActionShowNewPO(Action):

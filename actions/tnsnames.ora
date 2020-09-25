@@ -1,0 +1,22 @@
+ISCRMSBE =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = dgphxrcidb006.phx.gapinc.dev )(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SID = ISCRMSBE)
+      (GLOBAL_NAME = ISCRMSBE)
+    )
+  )
+
+
+ISCRMSBA =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = dgphxrcidb006.phx.gapinc.dev )(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SID = ISCRMSBA)
+      (GLOBAL_NAME = ISCRMSBA)
+    )
+  )
