@@ -73,7 +73,7 @@ class ActionFetchMultiDetails(Action):
         if(metadata != {}):
             # dispatcher.utter_message(text=metadata)
             try:
-                db = cx.Connection('vigarg_ts/GapInfosys1029$$@ISCRMSBE')
+                db = cx.Connection('')
                 cursor = cx.Cursor(db)
                 excelData = json.loads(metadata)
                 outputJson = []
@@ -194,7 +194,7 @@ class SOHDetailsForm(FormAction):
         print("sku: ", skuNo)
         print("store: ", storeNo)
         try:
-            db = cx.Connection('vigarg_ts/GapInfosys1029$$@ISCRMSBE')
+            db = cx.Connection('')
             cursor = cx.Cursor(db)
             sql = "select stock_on_hand from item_loc_soh where item = %d and loc = %d " % (int(skuNo), int(storeNo))
             print(sql)
@@ -268,7 +268,7 @@ class LegacyPoForm(FormAction):
         legacyPo = tracker.get_slot("legacyPo")
         print("legacyPO :",legacyPo)
         try:
-            db = cx.Connection('vigarg_ts/GapInfosys1029$$@ISCRMSBE')
+            db = cx.Connection('')
             cursor = cx.Cursor(db)
             # sql = "select egi_ord_nbr from POORX_PO_XREF_T where PO_PFX_NBR||PO_DC_ID = %d " % legacyPo
             sql = "select PO_PFX_NBR||PO_DC_ID as LEGACY_ORD_NBR, egi_ord_nbr from POORX_PO_XREF_T where PO_PFX_NBR||PO_DC_ID = '%s' " % (legacyPo)
@@ -327,7 +327,7 @@ class ActionFindGLMapping(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         try:
-            db = cx.Connection('vigarg_ts/GapInfosys1029$$@ISCRMSBE')
+            db = cx.Connection('')
             cursor = cx.Cursor(db)
             outputJson = []
             glMappingSQL = "SELECT DISTINCT a.dept, a.location, a.tran_code, DECODE (a.tran_code,'23', a.gl_ref_no, -1) tran_ref_no, 'C' cost_retail_flag FROM tran_data_history a WHERE post_date BETWEEN (SELECT last_eom_date + 1 FROM system_variables ) AND (SELECT next_eom_date FROM system_variables) AND tran_code IN ( select substr(code,0,2) from code_detail where code_type='GLMT') UNION SELECT DISTINCT a.dept, a.location, a.tran_code, DECODE (a.tran_code,'23', a.gl_ref_no, -1) tran_ref_no, 'C' cost_retail_flag FROM tran_data a WHERE tran_date BETWEEN (SELECT last_eom_date + 1 FROM system_variables) AND (SELECT next_eom_date FROM system_variables) AND tran_code IN (select substr(code,0,2) from code_detail where code_type='GLMT') MINUS /*The below sql will get all available mapping in GL */ SELECT DISTINCT b.dept, b.location, b.tran_code, NVL (b.tran_ref_no, -1) tran_ref_no, b.cost_retail_flag FROM fif_gl_cross_ref b WHERE tran_code IN (select substr(code,0,2) from code_detail where code_type='GLMT') UNION SELECT DISTINCT a.dept, a.location, 51 tran_code, NULL tran_ref_no, 'C' cost_retail_flag FROM month_data a WHERE eom_date = (SELECT next_eom_date FROM system_variables) AND (nvl(stocktake_bookstk_cost,0) - nvl(stocktake_actstk_cost,0)) <> 0 MINUS /*The below sql will get all available mapping in GL */ SELECT DISTINCT b.dept, b.location, 51 tran_code, NULL tran_ref_no, b.cost_retail_flag FROM fif_gl_cross_ref b WHERE tran_code = 51 UNION SELECT DISTINCT a.dept, a.location, DECODE (a.tran_code,1,51,41,51,a.tran_code) tran_code, NULL tran_ref_no, 'C' cost_retail_flag FROM tran_data_history a WHERE post_date BETWEEN (SELECT last_eom_date FROM system_variables) AND (SELECT next_eom_date FROM system_variables) AND tran_code IN ('1','41') UNION SELECT DISTINCT a.dept, a.location, DECODE (a.tran_code, 1, 51,41,51,a.tran_code) tran_code, NULL tran_ref_no, 'C' cost_retail_flag FROM tran_data a WHERE tran_date BETWEEN (SELECT last_eom_date FROM system_variables) AND (SELECT next_eom_date FROM system_variables) AND tran_code IN ('1', '41') MINUS /*The below sql will get all available mapping in GL */ SELECT DISTINCT b.dept, b.location, b.tran_code, NULL tran_ref_no, b.cost_retail_flag FROM fif_gl_cross_ref b WHERE tran_code ='51' ORDER BY 3,2,1"
@@ -360,7 +360,7 @@ class ActionFindGLMapping(Action):
 #         legacyPo=next(tracker.get_latest_entity_values("legacyPO_No"), None)
 #         print(legacyPo)
 #         try:
-#             db = cx.Connection('vigarg_ts/GapInfosys1029$$@ISCRMSBE')
+#             db = cx.Connection('')
 #             cursor = cx.Cursor(db)
 #             sql = "select egi_ord_nbr from POORX_PO_XREF_T where PO_PFX_NBR||PO_DC_ID = %d " % (legacyPo)
 #             print(sql)
